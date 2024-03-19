@@ -8,7 +8,7 @@
 #' @param ... Absorb arguments destined for other functions
 #'
 #' @return [base::invisible()]
-#' @importFrom r4ss SSgetMCMC
+#' @importFrom r4ss SSgetMCMC()
 #' @export
 create_rds_file <- function(ss_model_output_dir = NULL,
                             ss_model_data_csv_dir = NULL,
@@ -195,7 +195,7 @@ calc_mcmc <- function(mcmc,
                        "SPR",
                        "MSY",
                        "SPRtgt",
-                       "B_MSY/unfished")
+                       "B_MSY/SSB_unfished")
   map(names_to_remove, ~{
     if(.x %in% names(ssb)){
       ssb <<- ssb %>% select(-.x)
@@ -296,8 +296,8 @@ calc_mcmc <- function(mcmc,
                                      prob = ss_mcmc_quants) / biomass_scale * 1000
   }
   if(!"Fstd_SPR" %in% names(mcmc)){
-    if("Fstd_SPRtgt" %in% names(mcmc)){
-      mcmc <- mcmc %>% rename(Fstd_SPR = Fstd_SPRtgt)
+    if("annF_SPR" %in% names(mcmc)){
+      mcmc <- mcmc %>% rename(Fstd_SPR = annF_SPR)
     }
   }
   if("Fstd_SPR" %in% names(mcmc)){
@@ -317,7 +317,7 @@ calc_mcmc <- function(mcmc,
                                     prob = ss_mcmc_quants) / biomass_scale * 1000
   lst$spr_b40 <- quantile(mcmc$SPR_Btgt,
                           prob = ss_mcmc_quants)
-  lst$exp_frac_b40 <- quantile(mcmc$Fstd_Btgt,
+  lst$exp_frac_b40 <- quantile(mcmc$annF_Btgt,
                                prob = ss_mcmc_quants)
   if(!"Dead_Catch_Btgt" %in% names(mcmc)){
     if("TotYield_Btgt" %in% names(mcmc)){
@@ -332,7 +332,7 @@ calc_mcmc <- function(mcmc,
                                      prob = ss_mcmc_quants) / biomass_scale * 1000
   lst$spr_msy <- quantile(mcmc$SPR_MSY,
                           prob = ss_mcmc_quants)
-  lst$exp_frac.sprmsy <- quantile(mcmc$Fstd_MSY,
+  lst$exp_frac.sprmsy <- quantile(mcmc$annF_MSY,
                                   prob = ss_mcmc_quants)
   if(!"Dead_Catch_MSY" %in% names(mcmc)){
     if("TotYield_MSY" %in% names(mcmc)){
@@ -381,7 +381,7 @@ load_ss_model_data <- function(s_min = 1,
   lst <- NULL
 
   # Catch observations --------------------------------------------------------
-  lst$catch_obs <- ss_model$dat$catch %>%
+   lst$catch_obs <- ss_model$dat$catch %>%
     transmute(yr = year,
               value = catch) %>%
     filter(yr > 1900) %>%

@@ -1,0 +1,5 @@
+Warning 1 : Early recdev biasadj is >2 times ratio of rmse to sigmaR
+Warning 2 Adjustment: Adjusted selparm out of base parm bounds. Phase: 5; Inter: 1526; fleet: 4; base_parm#: 3; y: 2010; min: -5; max: 9; base: 4.04178 timevary_val: 9.44373  AgeSel_P3_Fishery(1)
+Warning 3 Adjustment: Adjusted selparm out of base parm bounds. Phase: 5; Inter: 1526; fleet: 4; base_parm#: 3; y: 2010; min: -5; max: 9; base: 4.04178 timevary_val: 9.44373  AgeSel_P3_Fishery(1)
+Warning 4 Adjustment: Adjusted selparm out of base parm bounds. Phase: 5; Inter: 1655; fleet: 4; base_parm#: 3; y: 1997; min: -5; max: 9; base: 3.90925 timevary_val: 9.02648  AgeSel_P3_Fishery(1)
+Warning 5 Adjustment: Adjusted selparm out of base parm bounds. Phase: 5; Inter: 1655; fleet: 4; base_parm#: 3; y: 1997; min: -5; max: 9; base: 3.90925 timevary_val: 9.02648  AgeSel_P3_Fishery(1)
