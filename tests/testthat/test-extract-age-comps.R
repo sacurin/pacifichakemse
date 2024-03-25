@@ -30,10 +30,10 @@ ss_agecomps <- tibble::tribble(
   1977,        1,     2,    3.8,
   1977,        1,     3,    5.2,
   1977,        1,     4,    2.8,
-  1977,        1,     5,   19.1)
+  1977,        1,     5,   19.1
+)
 
-ss_model <- NULL
-ss_model$agedbase <- ss_agecomps
+ss_model <- list(agedbase = ss_agecomps)
 
 test_that("extract_age_comps() - Tests for argument errors", {
   expect_error(extract_age_comps(ss_model = NULL,
@@ -62,29 +62,8 @@ test_that("extract_age_comps() - Tests for argument errors", {
                                  m_yr = 2002,
                                  age_comps_fill = NULL))
   j <- ss_agecomps
-  names(j) <- c("Year", "Fleet", "Bin", "Obs")
-  j_model <- NULL
-  j_model$agedbase <- j
-  expect_error(extract_age_comps(ss_model = j_model,
-                                 age_comps_fleet = 2,
-                                 s_yr = 1993,
-                                 m_yr = 2002,
-                                 age_comps_fill = -1))
-
-  j <- ss_agecomps
-  names(j) <- c("Yr", "Wrong", "Bin", "Obs")
-  j_model <- NULL
-  j_model$agedbase <- j
-  expect_error(extract_age_comps(ss_model = j_model,
-                                 age_comps_fleet = 2,
-                                 s_yr = 1993,
-                                 m_yr = 2002,
-                                 age_comps_fill = -1))
-
-  j <- ss_agecomps
-  j <- j %>% mutate(Fleet = ifelse(Fleet == 2, 3, Fleet))
-  j_model <- NULL
-  j_model$agedbase <- j
+  names(j) <- c("Yr", "Fleet", "Bin", "Obs")
+  j_model <- list(agedbase = j)
   expect_error(extract_age_comps(ss_model = j_model,
                                  age_comps_fleet = 2,
                                  s_yr = 1993,

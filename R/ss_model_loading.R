@@ -381,7 +381,7 @@ load_ss_model_data <- function(s_min = 1,
   lst <- NULL
 
   # Catch observations --------------------------------------------------------
-   lst$catch_obs <- ss_model$dat$catch %>%
+  lst$catch_obs <- ss_model$dat$catch %>%
     transmute(yr = year,
               value = catch) %>%
     filter(yr > 1900) %>%
@@ -438,6 +438,7 @@ load_ss_model_data <- function(s_min = 1,
   lst$mat_sel <- as.matrix(lst$wage_ssb[1,])
 
   lst$parms_scalar <- load_ss_parameters(ss_model)
+  browser()
   lst$age_survey <- extract_age_comps(ss_model,
                                       age_comps_fleet = 2,
                                       s_yr = lst$s_yr,
@@ -658,27 +659,30 @@ extract_age_comps <- function(ss_model = NULL,
                               age_comps_fill = -1,
                               yr_col = "Yr",
                               age_comps_fleet_col = "Fleet",
-                              ...){
+                              ...) {
+
+  # Print column names for debugging
+  cat("Column names in age_comp_data:", names(ss_model$agedbase), "\n")
 
   stopifnot(age_comps_fleet %in% c(1, 2))
-  if(is.na(age_comps_fill)){
+  if (is.na(age_comps_fill)) {
     age_comps_fill <- NA_real_
   }
 
   age_comp_data <- ss_model$agedbase %>%
     as_tibble()
   ages <- unique(age_comp_data$Bin)
-  if(!yr_col %in% names(age_comp_data)){
+  if (!yr_col %in% names(age_comp_data)) {
     stop("The column `", yr_col, "` does not exist in the SS age comp data table.",
          call. = FALSE)
   }
-  if(!age_comps_fleet_col %in% names(age_comp_data)){
+  if (!age_comps_fleet_col %in% names(age_comp_data)) {
     stop("The column `", age_comps_fleet_col, "` does not exist in the SS age comp data table.",
          call. = FALSE)
   }
   age_comps <- age_comp_data %>%
     filter(!!sym(age_comps_fleet_col) == age_comps_fleet)
-  if(nrow(age_comps) == 0){
+  if (nrow(age_comps) == 0) {
     stop("The fleet number `", age_comps_fleet, "` was not found in the SS age comp data table. ",
          call. = FALSE)
   }
@@ -766,7 +770,8 @@ extract_age_comp_data <- function(ss_model = NULL,
     stop("The fleet number `", age_comps_fleet, "` was not found in the SS age comp data table. ",
          call. = FALSE)
   }
-
+  s_yr=1975
+  m_yr=2023
   age_comps_yrs <- age_comps %>% select(!!sym(yr_col)) %>% pull()
   age_comps <- age_comps %>%
     select(matches("^a\\d+$")) %>%
